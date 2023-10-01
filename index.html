@@ -20,6 +20,7 @@
     <style>
         html ::-webkit-scrollbar {
             width: 15px;
+            background-color: white;
         }
 
         ::-webkit-scrollbar-track {
@@ -27,19 +28,19 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url("https://www.universalyums.com/wp-content/uploads/2021/03/Ketchup-Potato-Sticks-768x768.jpg");
-            background-position-x: 50%;
-            background-size: cover;
+            background: rgb(250, 165, 8);
+            transition: all 1s;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+border-radius: 10px;
         }
     </style>
     <title>Front Page Cafe</title>
 </head>
 
 
-<body  style="background-color: antiquewhite; font-family: Bellota,sans-serif;">
+<body style="background-color: antiquewhite; font-family: Bellota,sans-serif;">
     <header id="Home" class="p-0">
         <nav class="navbar p-0 navbar-expand-lg bg-body-tertiary mb-sm-3 mb-3" style="background-color: antiquewhite;">
             <div class="container-fluid" style="background-color: antiquewhite;">
@@ -71,7 +72,7 @@
                         <li style="cursor: pointer;"
                             class="nav-item d-flex flex-column justify-content-evenly align-items-center text-center">
                             <i class="bi bi-cup-hot m-0 fs-4"></i>
-                            <a class="nav-link active m-0" aria-current="page" href="#">Coffee & Tea</a>
+                            <a class="nav-link active m-0" aria-current="page" href="#drinks">Drinks</a>
                         </li>
                         <li style="cursor: pointer;"
                             class="nav-item d-flex flex-column justify-content-evenly align-items-center text-center">
@@ -133,8 +134,8 @@
 
         <nav id="gallery" class="navbar w-100 position-relative d-flex justify-content-center">
             <div class="nav nav-tabs d-flex flex-row" id="nav-tab" role="tablist">
-                <button class="nav-link border-2 px-md-2 px-1 px-lg-3 px-xl-4  active" id="nav-home-tab"
-                    data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                <button class="nav-link border-2 px-md-2 px-1 px-lg-3 px-xl-4  active" id="nav-pizza-tab"
+                    data-bs-toggle="tab" data-bs-target="#nav-pizza" type="button" role="tab" aria-controls="nav-pizza"
                     aria-selected="false">Pizza</button>
                 <button class="nav-link border-2 px-md-2 px-1 px-lg-3 px-xl-4 " id="nav-Burger-tab" data-bs-toggle="tab"
                     data-bs-target="#nav-Burger" type="button" role="tab" aria-controls="nav-Burger"
@@ -151,8 +152,8 @@
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade container-fluid justify-content-around my-1 show active" id="nav-home"
-                role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            <div class="tab-pane fade  container-fluid justify-content-around my-1 show active" id="nav-pizza"
+                role="tabpanel" aria-labelledby="nav-pizza-tab" tabindex="0">
                 <div class="container-fluid text-center">
                     <div id="PizzaPane"
                         class="row row-cols-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-5 row-cols-xl-6 d-flex justify-content-around">
@@ -163,7 +164,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -182,7 +183,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -201,7 +202,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -220,7 +221,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -239,7 +240,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -258,7 +259,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -277,7 +278,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -296,7 +297,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -315,7 +316,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -334,7 +335,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -353,7 +354,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -372,7 +373,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://vegconomist.com/wp-content/uploads/sites/3/Oh-Jacky-%C2%A9-Dominos-Pizza-Deutschland-GmbH.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -388,7 +389,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade container-fluid justify-content-around my-1" id="nav-Burger" role="tabpanel"
+            <div class="tab-pane fade  container-fluid justify-content-around my-1" id="nav-Burger" role="tabpanel"
                 aria-labelledby="nav-Burger-tab" tabindex="0">
                 <div class="container-fluid text-center">
                     <div
@@ -400,7 +401,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -419,7 +420,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -438,7 +439,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -457,7 +458,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -476,7 +477,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -495,7 +496,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -514,7 +515,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -533,7 +534,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -552,7 +553,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -571,7 +572,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -590,7 +591,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -609,7 +610,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.jing.fm/clipimg/full/72-720746_berger-food-png-chicken-burger-png.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -624,7 +625,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade container-fluid justify-content-around my-1" id="nav-Sandwich" role="tabpanel"
+            <div class="tab-pane fade  container-fluid justify-content-around my-1" id="nav-Sandwich" role="tabpanel"
                 aria-labelledby="nav-Sandwich-tab" tabindex="0">
                 <div class="container-fluid text-center">
                     <div
@@ -636,7 +637,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -655,7 +656,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -674,7 +675,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -693,7 +694,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -712,7 +713,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -731,7 +732,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -750,7 +751,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -769,7 +770,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -788,7 +789,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -807,7 +808,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -826,7 +827,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -845,7 +846,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://i.pinimg.com/474x/98/36/e7/9836e70618028168a741f7f07d675026.jpg" alt=""
-                                class="card-img-top productImg rounded-2">
+                                class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -860,7 +861,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade container-fluid justify-content-around my-1" id="nav-FrenchFries" role="tabpanel"
+            <div class="tab-pane fade  container-fluid justify-content-around my-1" id="nav-FrenchFries" role="tabpanel"
                 aria-labelledby="nav-FrenchFries-tab" tabindex="0">
                 <div class="container-fluid text-center">
                     <div
@@ -872,7 +873,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -891,7 +892,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -910,7 +911,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -929,7 +930,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -948,7 +949,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -967,7 +968,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -986,7 +987,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1005,7 +1006,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1024,7 +1025,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1043,7 +1044,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1062,7 +1063,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1081,7 +1082,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://img.freepik.com/free-photo/fried-potatoes-with-ketchup-mayonnaise-isolated-white-background_123827-21725.jpg?w=900&t=st=1695645916~exp=1695646516~hmac=93b16aa07f7c9825ed37a488718f3985251a4154927de1978cc04b932b4253bb"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1096,7 +1097,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade container-fluid justify-content-around my-1" id="nav-Hot-Dog" role="tabpanel"
+            <div class="tab-pane fade  container-fluid justify-content-around my-1" id="nav-Hot-Dog" role="tabpanel"
                 aria-labelledby="nav-Hot-Dog-tab" tabindex="0">
                 <div class="container-fluid text-center">
                     <div
@@ -1108,7 +1109,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1127,7 +1128,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1146,7 +1147,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1165,7 +1166,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1184,7 +1185,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1203,7 +1204,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1222,7 +1223,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1241,7 +1242,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1260,7 +1261,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1279,7 +1280,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1298,7 +1299,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1317,7 +1318,7 @@
                                 <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
                             </span>
                             <img src="https://www.seekpng.com/png/full/7-73380_free-png-hot-dog-png-png-images-transparent.png"
-                                alt="" class="card-img-top productImg rounded-2">
+                                alt="" class="card-img-top productImg rounded-2 img-fluid">
                             <div class="imgInfo h-50 text-start w-50 card-img-overlay">
                                 <h3 class="shadow">&#x20b9; 249/-</h3>
                                 <p class="shadow fs-5">Veg &#x1F966;</p>
@@ -1332,27 +1333,673 @@
                     </div>
                 </div>
             </div>
-
             <hr>
-            <div class="container-lg-fluid w-100 d-flex align-items-center justify-content-evenly">
-                <div class="card text-bg-dark text-center ">
-                    <img src="https://source.unsplash.com/random/400x400?coffee" class="card-img img-fluid" alt="...">
-                    <div class="card-img-overlay ">
-                        <a href="#" class="card-title fs-3 link-offset-2-hover"
-                            style="text-shadow: 0 0 5px black;">Search Our
-                            Franchise</a>
-                        <p class="card-text"><small><i class="bi bi-buildings fs-2"></i></small></p>
+            <nav id="drinks" class="navbar bg-body-secondary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <i class="bi bi-cup-straw d-inline-block fs-1"></i>Drinks</a>
+                </div>
+            </nav>
+            <hr>
+            <nav class="navbar w-100 position-relative d-flex justify-content-center">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-coffee-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-coffee" type="button" role="tab" aria-controls="nav-coffee"
+                        aria-selected="true">Coffee</button>
+                    <button class="nav-link" id="nav-tea-tab" data-bs-toggle="tab" data-bs-target="#nav-tea"
+                        type="button" role="tab" aria-controls="nav-tea" aria-selected="false">Tea</button>
+                    <button class="nav-link" id="nav-softdrinks-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-softdrinks" type="button" role="tab" aria-controls="nav-softdrinks"
+                        aria-selected="false">Soft drinks</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade  show active container-fluid justify-content-around my-1" id="nav-coffee"
+                    role="tabpanel" aria-labelledby="nav-coffee-tab" tabindex="0">
+                    <div class="container-fluid text-center">
+                        <div
+                            class="row row-cols-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-5 row-cols-xl-6 d-flex justify-content-around">
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://img.freepik.com/free-vector/realistic-cup-black-brewed-coffee-saucer-vector-illustration_1284-66002.jpg?w=740&t=st=1696150751~exp=1696151351~hmac=3a7003ba118d166867e559a9d8f701b370013161b4a750bf2da0473abf3210b2"
+                                    alt="" class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 149/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Americano</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card text-bg-dark text-center ">
-                    <img src="https://source.unsplash.com/random/400x400?cafe" class="card-img img-fluid" alt="...">
-                    <div class="card-img-overlay ">
-                        <a href="#" class="card-title fs-3 link-offset-2-hover" style="text-shadow: 0 0 5px black;">Find
-                            Us Near You</a>
-                        <p class="card-text"><small><i class="bi bi-geo-alt-fill fs-2"></i></small></p>
+                <div class="tab-pane fade"  id="nav-tea" role="tabpanel" aria-labelledby="nav-tea-tab" tabindex="0">
+                    <div class="container-fluid text-center">
+                        <div
+                            class="row row-cols-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-5 row-cols-xl-6 d-flex justify-content-around">
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://wallpapercave.com/wp/wp3073516.jpg" alt=""
+                                    class="card-img-top productImg rounded-2 img-fluid">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 20/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tea</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="tab-pane fade"  id="nav-softdrinks" role="tabpanel" aria-labelledby="nav-softdrinks-tab"
+                    tabindex="0">
+                    <div class="container-fluid text-center">
+                        <div
+                            class="row row-cols-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-5 row-cols-xl-6 d-flex justify-content-around">
+                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>                            <div class="col card p-1 my-3 mx-lg-3 mx-sm-1 mx-md-2 mx-xl-4 d-flex flex-column align-items-center bg-primary-subtle"
+                                style="width: 23rem;">
+                                <span style="cursor: pointer;"
+                                    class=" position-absolute top-0 start-100 translate-middle py-1 p-2 bg-info-subtle border border-light ">
+                                    <span class=""><i class="bi bi-cart-plus fs-5"></i></span>
+                                </span>
+                                <img src="https://www.freepnglogos.com/uploads/coca-cola-png/can-coca-cola-fearoftheblackwolf-deviantart-26.png"
+                                    alt="" class="card-img-top ratio-1x1 productImg rounded-2">
+                                <div class="imgInfo h-50 text-start w-50 card-img-overlay">
+                                    <h3 class="shadow">&#x20b9; 25/-</h3>
+                                </div>
+                                <hr class="position-relative border-2 w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Coco Cola</h5>
+                                    <a href="" class="btn btn-outline-info">Available at Cafe / Order now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="container-lg-fluid w-100 d-flex align-items-center justify-content-evenly">
+                        <div class="card text-bg-dark text-center ">
+                            <img src="https://source.unsplash.com/random/400x400?coffee" class="card-img img-fluid"
+                                alt="...">
+                            <div class="card-img-overlay ">
+                                <a href="#" class="card-title fs-3 link-offset-2-hover"
+                                    style="text-shadow: 0 0 5px black;">Search Our
+                                    Franchise</a>
+                                <p class="card-text"><small><i class="bi bi-buildings fs-2"></i></small></p>
+                            </div>
+                        </div>
+                        <div class="card text-bg-dark text-center ">
+                            <img src="https://source.unsplash.com/random/400x400?cafe" class="card-img img-fluid"
+                                alt="...">
+                            <div class="card-img-overlay ">
+                                <a href="#" class="card-title fs-3 link-offset-2-hover"
+                                    style="text-shadow: 0 0 5px black;">Find
+                                    Us Near You</a>
+                                <p class="card-text"><small><i class="bi bi-geo-alt-fill fs-2"></i></small></p>
+                            </div>
+                        </div>
+                    </div>
 
     </main>
     <footer class="footer mt-3 d-flex align-items-center" style="height: 300px;">
@@ -1360,7 +2007,7 @@
 
             <div class="navbar-expand-lg text-center">
                 <p>Copyright &copy; FrontPageCafe.com</p>
-                <p>Made with 	&#x2764;&#xfe0f; by Abhay Bhise.</p>
+                <p>Made with &#x2764;&#xfe0f; by Abhay Bhise.</p>
                 <ul class="navbar-nav d-flex flex-row  align-items-center justify-content-between  ">
                     <li class="mx-2  ">
                         <a href="">
@@ -1368,7 +2015,7 @@
                         </a>
                     </li>
                     <li class="mx-2  ">
-                        <a href="https://github.com/AbhayBhise/Front_Page_Cafe.git">
+                        <a href="https://github.com/AbhayBhise/Front_Page_Cafe.git" target="_blank">
                             <i class="bi bi-github fs-3"></i>
                         </a>
                     </li>
