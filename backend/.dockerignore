@@ -1,0 +1,11 @@
+node_modules
+dist
+.pgdata
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+.git
+.DS_Store
+prisma/dev.db

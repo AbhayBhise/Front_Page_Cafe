@@ -1,0 +1,315 @@
+// Front Page Cafe — multi-tenant cafe ordering SaaS
+// Postgres + Prisma
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  customer
+  counter
+  owner
+  admin
+}
+
+enum UserStatus {
+  active
+  suspended
+}
+
+enum CafeStatus {
+  pending
+  approved
+  rejected
+  suspended
+}
+
+enum OrderStatus {
+  pending
+  accepted
+  preparing
+  ready
+  completed
+  cancelled
+  rejected
+}
+
+enum PaymentStatus {
+  unpaid
+  paid
+  refunded
+  failed
+}
+
+enum FulfillmentType {
+  dine_in
+  takeaway
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  phone        String?
+  passwordHash String
+  role         Role       @default(customer)
+  status       UserStatus @default(active)
+  isGuest      Boolean    @default(false)
+  avatarUrl    String?
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  ownedCafes    Cafe[]         @relation("CafeOwner")
+  reviewedCafes Cafe[]         @relation("CafeReviewer")
+  staffProfile  CafeStaff?
+  orders        Order[]        @relation("CustomerOrders")
+  handledOrders Order[]        @relation("CounterOrders")
+  sessions      Session[]
+  activityLogs  ActivityLog[]
+  notifications Notification[]
+}
+
+model Session {
+  id               String    @id @default(cuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokenHash String    @unique
+  userAgent        String?
+  ip               String?
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model Cafe {
+  id              String     @id @default(cuid())
+  name            String
+  slug            String     @unique
+  ownerId         String
+  owner           User       @relation("CafeOwner", fields: [ownerId], references: [id])
+  description     String?
+  phone           String?
+  email           String?
+  addressLine     String?
+  city            String?
+  state           String?
+  country         String?    @default("India")
+  postalCode      String?
+  gstNumber       String?
+  licenseNumber   String?
+  logoUrl         String?
+  bannerUrl       String?
+  status          CafeStatus @default(pending)
+  rejectionReason String?
+  reviewedById    String?
+  reviewedBy      User?      @relation("CafeReviewer", fields: [reviewedById], references: [id])
+  reviewedAt      DateTime?
+  isOpen          Boolean    @default(true)
+  currency        String     @default("INR")
+  taxRate         Float      @default(5)
+  welcomeMessage  String?
+  announcement    String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  categories   MenuCategory[]
+  menuItems    MenuItem[]
+  orders       Order[]
+  staff        CafeStaff[]
+  counters     Counter[]
+  tables       Table[]
+  activityLogs ActivityLog[]
+
+  @@index([status])
+}
+
+model Counter {
+  id        String   @id @default(cuid())
+  cafeId    String
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  name      String
+  code      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  staff  CafeStaff[]
+  orders Order[]
+
+  @@unique([cafeId, code])
+}
+
+model Table {
+  id        String   @id @default(cuid())
+  cafeId    String
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  label     String
+  code      String
+  qrSecret  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+
+  @@unique([cafeId, code])
+  @@index([cafeId])
+}
+
+model CafeStaff {
+  id        String   @id @default(cuid())
+  cafeId    String
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  counterId String?
+  counter   Counter? @relation(fields: [counterId], references: [id])
+  title     String   @default("Counter Staff")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([cafeId])
+}
+
+model MenuCategory {
+  id        String   @id @default(cuid())
+  cafeId    String
+  cafe      Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  name      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items MenuItem[]
+
+  @@unique([cafeId, name])
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  cafeId      String
+  cafe        Cafe     @relation(fields: [cafeId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    MenuCategory @relation(fields: [categoryId], references: [id])
+  name        String
+  description String?
+  price       Float
+  compareAtPrice Float?
+  imageUrl    String?
+  isVeg       Boolean  @default(true)
+  isAvailable Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  prepMinutes Int      @default(15)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([cafeId])
+}
+
+model Order {
+  id              String          @id @default(cuid())
+  orderNumber     Int             @default(autoincrement())
+  cafeId          String
+  cafe            Cafe            @relation(fields: [cafeId], references: [id])
+  customerId      String
+  customer        User            @relation("CustomerOrders", fields: [customerId], references: [id])
+  counterId       String?
+  counter         Counter?        @relation(fields: [counterId], references: [id])
+  tableId         String?
+  table           Table?          @relation(fields: [tableId], references: [id])
+  channel         String          @default("web")
+  handledById     String?
+  handledBy       User?           @relation("CounterOrders", fields: [handledById], references: [id])
+  status          OrderStatus     @default(pending)
+  fulfillmentType FulfillmentType @default(takeaway)
+  paymentStatus   PaymentStatus   @default(unpaid)
+  paymentRef      String?
+  paymentMethod   String?
+  subtotal        Float
+  taxAmount       Float
+  discountAmount  Float           @default(0)
+  total           Float
+  notes           String?
+  customerName    String?
+  customerPhone   String?
+  tableNumber     String?
+  cancelReason    String?
+  placedAt        DateTime        @default(now())
+  acceptedAt      DateTime?
+  readyAt         DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  items  OrderItem[]
+  events OrderEvent[]
+
+  @@index([cafeId, status])
+  @@index([customerId])
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId    String
+  menuItem      MenuItem @relation(fields: [menuItemId], references: [id])
+  nameSnapshot  String
+  priceSnapshot Float
+  quantity      Int
+  lineTotal     Float
+}
+
+model OrderEvent {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  note      String?
+  actorId   String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation(fields: [actorId], references: [id])
+  cafeId     String?
+  cafe       Cafe?    @relation(fields: [cafeId], references: [id])
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([cafeId, createdAt])
+  @@index([actorId, createdAt])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String?
+  data      Json?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, readAt])
+}
