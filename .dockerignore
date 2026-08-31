@@ -1,0 +1,12 @@
+node_modules
+dist
+backend
+.git
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+get-shit-done
+Screenshot*.png
+*.docx

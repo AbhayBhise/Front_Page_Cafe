@@ -1,0 +1,52 @@
+name: front-page-cafe
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fpc
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fpc_local_password}
+      POSTGRES_DB: frontpagecafe
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U fpc -d frontpagecafe']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DATABASE_URL: postgresql://fpc:${DB_PASSWORD:-fpc_local_password}@db:5432/frontpagecafe
+      CLIENT_ORIGIN: ${PUBLIC_URL:-http://localhost:8080}
+      PUBLIC_WEB_URL: ${PUBLIC_URL:-http://localhost:8080}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?set a strong JWT_ACCESS_SECRET in .env}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?set a strong JWT_REFRESH_SECRET in .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@frontpagecafe.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    expose:
+      - '5000'
+
+  web:
+    build:
+      context: .
+      args:
+        VITE_API_URL: /api
+        VITE_SOCKET_URL: ''
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - '${WEB_PORT:-8080}:80'
+
+volumes:
+  db-data:
