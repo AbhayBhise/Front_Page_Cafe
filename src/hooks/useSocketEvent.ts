@@ -4,7 +4,10 @@ import { getSocket } from '../lib/socket';
 /** Subscribe to a socket event for the lifetime of the component. */
 export function useSocketEvent<T = unknown>(event: string, handler: (payload: T) => void) {
   const saved = useRef(handler);
-  saved.current = handler;
+
+  useEffect(() => {
+    saved.current = handler;
+  });
 
   useEffect(() => {
     const socket = getSocket();

@@ -53,6 +53,10 @@ jobs:
         working-directory: backend
         run: npx prisma validate
 
+      - name: Generate Prisma Client Types
+        working-directory: backend
+        run: npx prisma generate
+
       - name: Backend Typecheck
         working-directory: backend
         run: npm run typecheck
@@ -68,22 +72,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: actions/setup-buildx-action@v3
-
       - name: Test Frontend Docker Build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: front-page-cafe-web:test
+        run: docker build -t front-page-cafe-web:test -f ./Dockerfile .
 
       - name: Test Backend Docker Build
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: false
-          tags: front-page-cafe-api:test
-
+        run: docker build -t front-page-cafe-api:test -f ./backend/Dockerfile ./backend
