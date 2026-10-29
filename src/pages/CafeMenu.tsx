@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import MenuBrowser from '../components/MenuBrowser';
 import { PageState } from '../components/ui';
+import { Shimmer, MenuItemSkeleton } from '../components/Shimmer';
 import { menuService, type PublicMenu } from '../services/menuService';
 import { useCartStore } from '../store/cartStore';
 import { money } from '../lib/format';
@@ -33,7 +34,44 @@ const CafeMenu = () => {
   useEffect(load, [slug]);
 
   return (
-    <PageState loading={loading} error={error} onRetry={load}>
+    <PageState
+      loading={loading}
+      loadingComponent={
+        <div>
+          <div
+            style={{ minHeight: 260, backgroundColor: 'rgba(217, 119, 6, 0.08)' }}
+            className="p-4 d-flex align-items-end"
+          >
+            <div className="container">
+              <Shimmer width="45%" height={36} borderRadius={8} className="mb-2" />
+              <Shimmer width="20%" height={24} borderRadius={12} className="mb-2" />
+              <Shimmer width="65%" height={16} borderRadius={6} />
+            </div>
+          </div>
+          <div className="container py-4">
+            <div className="row g-4">
+              <div className="col-lg-3 d-none d-lg-block">
+                <Shimmer height={42} borderRadius={8} className="mb-2" />
+                <Shimmer height={42} borderRadius={8} className="mb-2" />
+                <Shimmer height={42} borderRadius={8} className="mb-2" />
+                <Shimmer height={42} borderRadius={8} className="mb-2" />
+              </div>
+              <div className="col-lg-9">
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                  {Array.from({ length: 6 }).map((_, idx) => (
+                    <div className="col" key={idx}>
+                      <MenuItemSkeleton />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      error={error}
+      onRetry={load}
+    >
       {menu && (
         <>
           <div

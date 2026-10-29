@@ -1,111 +1,139 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --text: #4a2c11;
+  --text-h: #2c1810;
+  --bg: #faebd7;
+  --border: rgba(139, 69, 19, 0.15);
+  --code-bg: #f4ece1;
+  --accent: #8b4513;
+  --accent-bg: rgba(139, 69, 19, 0.1);
+  --accent-border: rgba(139, 69, 19, 0.3);
+  --social-bg: rgba(244, 236, 225, 0.5);
+  --shadow: rgba(44, 24, 16, 0.08) 0 8px 20px -3px, rgba(44, 24, 16, 0.04) 0 4px 8px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Bellota', system-ui, -apple-system, Roboto, sans-serif;
+  --heading: 'Bellota', system-ui, -apple-system, Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
+  font: 16px/150% var(--sans);
+  letter-spacing: 0.15px;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
 }
 
 #root {
-  width: 1126px;
+  width: 1200px;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  text-align: left;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
+@media (min-width: 1240px) {
+  #root {
+    border-inline: 1px solid var(--border);
+  }
+}
+
 body {
   margin: 0;
+  background-color: #faebd7;
+  font-family: 'Bellota', sans-serif;
+  overflow-x: hidden;
 }
 
-h1,
-h2 {
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading);
-  font-weight: 500;
   color: var(--text-h);
+  font-weight: 700;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* Shimmer Loading Wave Animation */
+@keyframes shimmerWave {
+  0% {
+    background-position: -200% 0;
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  100% {
+    background-position: 200% 0;
   }
-}
-p {
-  margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
+.shimmer-placeholder {
+  background: linear-gradient(
+    90deg,
+    rgba(230, 218, 201, 0.45) 25%,
+    rgba(255, 252, 246, 0.85) 50%,
+    rgba(230, 218, 201, 0.45) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWave 1.6s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Mobile Friendly Touch Targets & Utilities */
+.btn, .nav-link {
+  min-height: 40px;
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  align-items: center;
+  justify-content: center;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Smooth Horizontal Category Scroll for Touch Screens */
+.horizontal-scroll-touch {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-bottom: 6px;
+}
+
+.horizontal-scroll-touch::-webkit-scrollbar {
+  height: 4px;
+}
+
+.horizontal-scroll-touch::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.2);
+  border-radius: 4px;
+}
+
+/* QR Camera Scan Overlay */
+.qr-viewfinder {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border: 2px solid rgba(217, 119, 6, 0.8);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.45);
+}
+
+.qr-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d97706, #f59e0b, transparent);
+  box-shadow: 0 0 8px #f59e0b;
+  animation: qrScanMove 2.2s ease-in-out infinite;
+}
+
+@keyframes qrScanMove {
+  0% {
+    top: 5%;
+  }
+  50% {
+    top: 92%;
+  }
+  100% {
+    top: 5%;
+  }
 }

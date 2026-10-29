@@ -12,6 +12,7 @@ export const Spinner: React.FC<{ label?: string; className?: string }> = ({ labe
 
 interface PageStateProps {
   loading?: boolean;
+  loadingComponent?: React.ReactNode;
   error?: string | null;
   empty?: boolean;
   emptyIcon?: string;
@@ -23,6 +24,7 @@ interface PageStateProps {
 
 export const PageState: React.FC<PageStateProps> = ({
   loading,
+  loadingComponent,
   error,
   empty,
   emptyIcon = 'inbox',
@@ -31,7 +33,7 @@ export const PageState: React.FC<PageStateProps> = ({
   onRetry,
   children,
 }) => {
-  if (loading) return <Spinner />;
+  if (loading) return <>{loadingComponent || <Spinner />}</>;
   if (error)
     return (
       <div className="text-center py-5">

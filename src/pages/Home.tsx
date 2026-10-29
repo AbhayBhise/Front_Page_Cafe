@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import PartnerSection from '../components/PartnerSection';
 import CafeCard from '../components/CafeCard';
-import { Spinner } from '../components/ui';
+import { CafeCardSkeleton } from '../components/Shimmer';
 import { cafeService } from '../services/cafeService';
 import { orderService } from '../services/orderService';
 import { useAuth } from '../context/AuthContext';
@@ -245,7 +245,13 @@ const Home = () => {
         </div>
 
         {loading ? (
-          <Spinner />
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <div className="col" key={idx}>
+                <CafeCardSkeleton />
+              </div>
+            ))}
+          </div>
         ) : visibleCafes.length === 0 ? (
           <div
             className="card border-0 rounded-4 p-5 text-center shadow-sm"

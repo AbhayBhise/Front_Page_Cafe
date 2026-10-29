@@ -28,20 +28,39 @@ const MenuBrowser = ({ menu, disabled }: { menu: PublicMenu; disabled?: boolean 
           onChange={(e) => setSearch(e.target.value)}
         />
         {!search && (
-          <div className="list-group shadow-sm">
-            {menu.categories.map((c) => (
-              <button
-                key={c.id}
-                className={`list-group-item list-group-item-action d-flex justify-content-between ${
-                  c.name === activeCat ? 'active' : ''
-                }`}
-                onClick={() => setActiveCat(c.name)}
-              >
-                {c.name}
-                <span className="badge bg-light text-dark">{c.items.length}</span>
-              </button>
-            ))}
-          </div>
+          <>
+            {/* Mobile Category Horizontal Scroll Bar */}
+            <div className="d-lg-none horizontal-scroll-touch d-flex gap-2 pb-2 mb-3">
+              {menu.categories.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  className={`btn btn-sm rounded-pill px-3 py-2 text-nowrap fw-semibold ${
+                    c.name === activeCat ? 'btn-primary text-white shadow-xs' : 'btn-outline-secondary bg-white'
+                  }`}
+                  onClick={() => setActiveCat(c.name)}
+                >
+                  {c.name} <span className="opacity-75">({c.items.length})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Desktop Category Vertical Sidebar */}
+            <div className="d-none d-lg-block list-group shadow-sm">
+              {menu.categories.map((c) => (
+                <button
+                  key={c.id}
+                  className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center ${
+                    c.name === activeCat ? 'active' : ''
+                  }`}
+                  onClick={() => setActiveCat(c.name)}
+                >
+                  {c.name}
+                  <span className="badge bg-light text-dark">{c.items.length}</span>
+                </button>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

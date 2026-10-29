@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { orderService } from '../services/orderService';
 import { useSocketEvent } from '../hooks/useSocketEvent';
 import { PageState, OrderStatusBadge } from '../components/ui';
+import { OrderCardSkeleton } from '../components/Shimmer';
 import { money, dateTime } from '../lib/format';
 import BackButton from '../components/BackButton';
 import type { Order } from '../types';
@@ -59,6 +60,15 @@ const Orders = () => {
 
       <PageState
         loading={loading}
+        loadingComponent={
+          <div className="row row-cols-1 row-cols-md-2 g-3">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div className="col" key={idx}>
+                <OrderCardSkeleton />
+              </div>
+            ))}
+          </div>
+        }
         error={error}
         empty={visible.length === 0}
         emptyIcon="receipt"

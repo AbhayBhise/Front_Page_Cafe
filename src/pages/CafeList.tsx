@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import CafeCard from '../components/CafeCard';
 import { PageState } from '../components/ui';
+import { CafeCardSkeleton } from '../components/Shimmer';
 import { cafeService } from '../services/cafeService';
 import type { Cafe } from '../types';
 
@@ -52,6 +53,15 @@ const CafeList = () => {
 
       <PageState
         loading={loading}
+        loadingComponent={
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <div className="col" key={idx}>
+                <CafeCardSkeleton />
+              </div>
+            ))}
+          </div>
+        }
         error={error}
         empty={cafes.length === 0}
         emptyIcon="shop"

@@ -13,6 +13,7 @@ import About from './pages/About';
 import CafeList from './pages/CafeList';
 import CafeMenu from './pages/CafeMenu';
 import TableLanding from './pages/TableLanding';
+import QrScanner from './pages/QrScanner';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -45,6 +46,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="cafes" element={<CafeList />} />
               <Route path="cafes/:slug" element={<CafeMenu />} />
+              <Route path="qr" element={<QrScanner />} />
+              <Route path="scan" element={<Navigate to="/qr" replace />} />
               <Route path="t/:cafeSlug/:tableCode" element={<TableLanding />} />
               <Route path="about" element={<About />} />
               <Route path="cart" element={<Cart />} />
