@@ -67,51 +67,7 @@ export const orderService = {
       const orders = getStoredOrders();
       const match = orders.find((o) => o.id === id);
       if (match) return match;
-      // If direct link visited without placing order locally, generate mock order
-      return {
-        id,
-        orderNumber: 1042,
-        cafeId: 'cafe-front-page',
-        customerId: 'usr-guest',
-        status: 'preparing',
-        fulfillmentType: 'dine_in',
-        paymentStatus: 'paid',
-        paymentMethod: 'card',
-        subtotal: 580,
-        taxAmount: 29,
-        discountAmount: 0,
-        total: 609,
-        tableNumber: '4',
-        customerName: 'Guest Diner',
-        placedAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
-        acceptedAt: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
-        etaMinutes: 8,
-        queuePosition: 2,
-        items: [
-          {
-            id: 'oi-1',
-            menuItemId: 'item-1',
-            nameSnapshot: 'Specialty Ethiopian Pour-Over',
-            priceSnapshot: 240,
-            quantity: 1,
-            lineTotal: 240,
-          },
-          {
-            id: 'oi-2',
-            menuItemId: 'item-2',
-            nameSnapshot: 'Wood-Fired Margherita Pizza',
-            priceSnapshot: 340,
-            quantity: 1,
-            lineTotal: 340,
-          },
-        ],
-        events: [
-          { id: 'ev-1', status: 'pending', note: 'Order placed by guest', createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString() },
-          { id: 'ev-2', status: 'accepted', note: 'Kitchen confirmed ticket', createdAt: new Date(Date.now() - 1000 * 60 * 3).toISOString() },
-          { id: 'ev-3', status: 'preparing', note: 'Barista grinding and brewing', createdAt: new Date().toISOString() },
-        ],
-        cafe: { id: 'cafe-front-page', name: 'Front Page Cafe', slug: 'front-page-cafe', currency: 'INR' },
-      };
+      throw new Error('Order not found');
     }
     try {
       return await getData<Order>(`/orders/${id}`);

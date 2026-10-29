@@ -6,7 +6,10 @@ import PartnerSection from '../components/PartnerSection';
 import CafeCard from '../components/CafeCard';
 import { Spinner } from '../components/ui';
 import { cafeService } from '../services/cafeService';
-import type { Cafe } from '../types';
+import { orderService } from '../services/orderService';
+import { useAuth } from '../context/AuthContext';
+import { useSocketEvent } from '../hooks/useSocketEvent';
+import type { Cafe, Order } from '../types';
 
 const CATEGORIES = [
   { icon: 'cup-hot-fill', label: 'Specialty Coffee', desc: 'Single-origin pour-overs & lattes' },
@@ -39,53 +42,6 @@ const STEPS = [
   },
 ];
 
-const SIMULATED_STAGES = [
-  {
-    key: 'pending',
-    title: '1. Order Placed',
-    customerStatus: 'Order Placed',
-    customerEta: '~15 min',
-    queuePos: '#3 in queue',
-    customerDesc: 'Your order was instantly received by the cafe POS and queued.',
-    ownerAction: 'Incoming ticket alerted with chime on kitchen console.',
-    color: '#0d6efd',
-    icon: 'bag-plus',
-  },
-  {
-    key: 'accepted',
-    title: '2. Kitchen Accepted',
-    customerStatus: 'Kitchen Accepted',
-    customerEta: '~12 min',
-    queuePos: '#2 in queue',
-    customerDesc: 'The barista has confirmed your ticket and added it to active prep.',
-    ownerAction: 'Ticket moved to active kitchen counter board.',
-    color: '#0dcaf0',
-    icon: 'check2-circle',
-  },
-  {
-    key: 'preparing',
-    title: '3. In the Oven & Grinder',
-    customerStatus: 'Preparing Fresh',
-    customerEta: '~5 min',
-    queuePos: '#1 in queue',
-    customerDesc: 'Beans are being freshly ground and pizza crust is in the oven.',
-    ownerAction: 'Kitchen timer running with live workload calculation.',
-    color: '#fd7e14',
-    icon: 'fire',
-  },
-  {
-    key: 'ready',
-    title: '4. Ready for You!',
-    customerStatus: 'Ready for Pickup',
-    customerEta: 'Ready now!',
-    queuePos: 'Next up',
-    customerDesc: 'Your hot brew and fresh bites are waiting at the counter / table.',
-    ownerAction: 'One-click dispatch alert sent to guest phone & counter screen.',
-    color: '#198754',
-    icon: 'bag-check-fill',
-  },
-];
-
 const TESTIMONIALS = [
   {
     quote: 'The table QR ordering is phenomenal. We walked into Front Page Cafe, scanned the table code, and our specialty pour-overs arrived within 8 minutes!',
@@ -108,10 +64,11 @@ const TESTIMONIALS = [
 ];
 
 const Home = () => {
+  const { user } = useAuth();
   const [cafes, setCafes] = useState<Cafe[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'open'>('all');
-  const [activeStageIdx, setActiveStageIdx] = useState(2); // default to 'preparing'
+  const [activeOrder, setActiveOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     cafeService
@@ -121,24 +78,86 @@ const Home = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  // Only check and display an active order banner IF the user actually placed one
+  useEffect(() => {
+    if (!user) {
+      setActiveOrder(null);
+      return;
+    }
+    orderService
+      .mine({ status: 'active' })
+      .then((res) => {
+        const found = res.data.find((o) =>
+          ['pending', 'accepted', 'preparing', 'ready'].includes(o.status),
+        );
+        setActiveOrder(found || null);
+      })
+      .catch(() => setActiveOrder(null));
+  }, [user]);
+
+  useSocketEvent<Order>('order:updated', (updated) => {
+    if (['pending', 'accepted', 'preparing', 'ready'].includes(updated.status)) {
+      setActiveOrder(updated);
+    } else {
+      setActiveOrder(null);
+    }
+  });
+
   const visibleCafes = filter === 'open' ? cafes.filter((c) => c.isOpen) : cafes;
-  const currentStage = SIMULATED_STAGES[activeStageIdx];
 
   return (
     <>
+      {/* Real-time Floating Order Status Banner — ONLY renders if the user has an actual live order in progress */}
+      {activeOrder && (
+        <div className="container mt-3">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="alert border-0 shadow-sm rounded-4 p-3 d-flex justify-content-between align-items-center flex-wrap gap-2 text-white"
+            style={{ backgroundColor: '#2c1810' }}
+          >
+            <div className="d-flex align-items-center gap-3">
+              <span className="spinner-grow spinner-grow-sm text-warning" role="status" />
+              <div>
+                <strong className="d-block text-warning">
+                  Active Order #{activeOrder.orderNumber} · {activeOrder.status.toUpperCase()}
+                </strong>
+                <small className="text-light opacity-75">
+                  {activeOrder.cafe?.name || 'Front Page Cafe'} ·{' '}
+                  {activeOrder.status === 'ready'
+                    ? 'Ready for pickup!'
+                    : `Estimated prep: ~${activeOrder.etaMinutes ?? 10} min`}
+                </small>
+              </div>
+            </div>
+            <Link
+              to={`/orders/${activeOrder.id}`}
+              className="btn btn-warning text-dark btn-sm rounded-pill px-3 fw-bold shadow-sm"
+            >
+              Track Live Order <i className="bi bi-arrow-right ms-1" />
+            </Link>
+          </motion.div>
+        </div>
+      )}
+
       {/* Enhanced Hero Section with dynamic typing and curated photo carousel */}
       <Hero />
 
       {/* Artisanal Flavor Cravings Bar */}
       <section className="container my-4">
-        <div className="card border-0 rounded-4 shadow-sm p-4" style={{ backgroundColor: '#fff9f2', border: '1px solid rgba(139, 69, 19, 0.12)' }}>
+        <div
+          className="card border-0 rounded-4 shadow-sm p-4"
+          style={{ backgroundColor: '#fff9f2', border: '1px solid rgba(139, 69, 19, 0.12)' }}
+        >
           <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div>
               <h5 className="fw-bold m-0" style={{ color: '#2c1810' }}>
                 <i className="bi bi-compass me-2 text-warning" />
                 Craving Something Special?
               </h5>
-              <small className="text-muted">Explore handcrafted categories across our partner cafes</small>
+              <small className="text-muted">
+                Explore handcrafted categories across our partner cafes
+              </small>
             </div>
             <Link to="/cafes" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-medium">
               View All Menus <i className="bi bi-arrow-right ms-1" />
@@ -152,11 +171,20 @@ const Home = () => {
                   <motion.div
                     whileHover={{ y: -4, backgroundColor: '#faebd7' }}
                     className="p-3 rounded-4 border text-center h-100 d-flex flex-column justify-content-center align-items-center"
-                    style={{ backgroundColor: '#ffffff', borderColor: '#f1e2cc', transition: 'all 0.2s ease' }}
+                    style={{
+                      backgroundColor: '#ffffff',
+                      borderColor: '#f1e2cc',
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     <div
                       className="d-inline-flex align-items-center justify-content-center rounded-circle mb-2"
-                      style={{ width: 48, height: 48, backgroundColor: 'rgba(217, 119, 6, 0.12)', color: '#b45309' }}
+                      style={{
+                        width: 48,
+                        height: 48,
+                        backgroundColor: 'rgba(217, 119, 6, 0.12)',
+                        color: '#b45309',
+                      }}
                     >
                       <i className={`bi bi-${cat.icon} fs-4`} />
                     </div>
@@ -219,11 +247,19 @@ const Home = () => {
         {loading ? (
           <Spinner />
         ) : visibleCafes.length === 0 ? (
-          <div className="card border-0 rounded-4 p-5 text-center shadow-sm" style={{ backgroundColor: '#fff9f2' }}>
+          <div
+            className="card border-0 rounded-4 p-5 text-center shadow-sm"
+            style={{ backgroundColor: '#fff9f2' }}
+          >
             <i className="bi bi-shop text-muted fs-1 mb-2" />
             <h5 className="fw-bold">No cafes found</h5>
-            <p className="text-muted small mb-3">There are no cafes matching this filter right now.</p>
-            <button className="btn btn-sm btn-outline-secondary mx-auto" onClick={() => setFilter('all')}>
+            <p className="text-muted small mb-3">
+              There are no cafes matching this filter right now.
+            </p>
+            <button
+              className="btn btn-sm btn-outline-secondary mx-auto"
+              onClick={() => setFilter('all')}
+            >
               Show all cafes
             </button>
           </div>
@@ -238,7 +274,7 @@ const Home = () => {
         )}
       </section>
 
-      {/* Interactive Live Order State Tracing Showcase */}
+      {/* Modern Dining Experience Pillars (Inspired by Toast Tab & Starbucks) */}
       <section className="container my-5">
         <div
           className="card border-0 rounded-4 shadow-sm p-4 p-md-5 overflow-hidden"
@@ -250,141 +286,104 @@ const Home = () => {
           <div className="row align-items-center g-4">
             <div className="col-lg-5">
               <span className="badge bg-warning text-dark px-3 py-1 rounded-pill fw-semibold mb-3">
-                <i className="bi bi-broadcast me-1" /> Real-time Live Sync
+                <i className="bi bi-stars me-1" /> Modern Hospitality Tech
               </span>
-              <h2 className="fw-bold mb-3 text-white" style={{ fontSize: 'clamp(1.8rem, 2.4vw, 2.4rem)' }}>
-                Live Order Tracing for Guests & Cafe Owners
+              <h2
+                className="fw-bold mb-3 text-white"
+                style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.5rem)', lineHeight: 1.25 }}
+              >
+                Seamless Dining, From Table QR to Final Sip
               </h2>
               <p className="text-light opacity-75 small mb-4" style={{ lineHeight: 1.7 }}>
-                Every order placed via Table QR or online is synchronized instantly using WebSockets. The guest sees kitchen ETA countdowns, while the cafe owner and kitchen staff receive real-time ticket queues.
+                Front Page Cafe unites artisanal kitchen craft with frictionless ordering. Whether
+                you're seated at a table or grabbing your morning pour-over, every order is synced in
+                real time between your phone and the barista's counter.
               </p>
 
-              {/* Stage Selector Buttons */}
-              <div className="d-flex flex-column gap-2 mb-4">
-                <small className="text-warning fw-semibold text-uppercase tracking-wide">
-                  Click to simulate live order stages:
-                </small>
-                <div className="d-flex flex-wrap gap-2">
-                  {SIMULATED_STAGES.map((stage, idx) => (
-                    <button
-                      key={stage.key}
-                      type="button"
-                      onClick={() => setActiveStageIdx(idx)}
-                      className={`btn btn-sm rounded-pill px-3 fw-medium ${
-                        activeStageIdx === idx
-                          ? 'btn-warning text-dark shadow-sm'
-                          : 'btn-outline-light'
-                      }`}
-                    >
-                      {stage.title}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="d-flex gap-3">
-                <Link to="/orders" className="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm">
-                  <i className="bi bi-bag-check me-2" />
-                  View Your Orders
+              <div className="d-flex flex-wrap gap-3">
+                <Link
+                  to="/cafes"
+                  className="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm"
+                >
+                  <i className="bi bi-cup-hot-fill me-2" />
+                  Explore Menus
                 </Link>
-                <Link to="/cafes" className="btn btn-outline-light fw-medium px-4 py-2 rounded-pill">
-                  Place an Order
+                <Link
+                  to="/qr"
+                  className="btn btn-outline-light fw-medium px-4 py-2 rounded-pill"
+                >
+                  <i className="bi bi-qr-code-scan me-2" />
+                  Scan Table QR
                 </Link>
               </div>
             </div>
 
-            {/* Interactive Dual-Perspective Visualizer Card */}
             <div className="col-lg-7">
               <div className="row g-3">
-                {/* 1. Customer Phone View */}
-                <div className="col-md-6">
-                  <div className="card border-0 rounded-4 shadow bg-white text-dark p-3 h-100">
-                    <div className="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
-                      <span className="badge bg-light text-muted border">
-                        <i className="bi bi-phone me-1" /> Customer View
-                      </span>
-                      <span className="small text-muted">Order #FP-1048</span>
-                    </div>
-
-                    <div className="text-center my-3">
-                      <div
-                        className="d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-2"
-                        style={{ backgroundColor: `${currentStage.color}1a`, color: currentStage.color }}
-                      >
-                        <i className={`bi bi-${currentStage.icon} fs-2`} />
-                      </div>
-                      <h5 className="fw-bold mb-1">{currentStage.customerStatus}</h5>
-                      <span className="badge bg-dark rounded-pill px-3 py-1">
-                        Table 04 · Dine-in
-                      </span>
-                    </div>
-
-                    <div className="bg-light rounded-3 p-3 mb-3 text-center">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="text-start">
-                          <small className="text-muted d-block">Estimated Ready</small>
-                          <strong className="fs-5 text-dark">{currentStage.customerEta}</strong>
-                        </div>
-                        <div className="text-end">
-                          <small className="text-muted d-block">Queue Pos</small>
-                          <span className="badge bg-warning text-dark fw-bold">
-                            {currentStage.queuePos}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="small text-muted mb-0">
-                      <i className="bi bi-info-circle me-1 text-primary" />
-                      {currentStage.customerDesc}
+                <div className="col-sm-6">
+                  <div
+                    className="p-4 rounded-4 h-100 text-white"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                    }}
+                  >
+                    <i className="bi bi-qr-code-scan fs-2 text-warning mb-3 d-block" />
+                    <h5 className="fw-bold mb-2">Contactless Table QR</h5>
+                    <p className="small text-light opacity-75 mb-0" style={{ lineHeight: 1.6 }}>
+                      No waiting for paper menus or busy staff. Scan the code on your table to
+                      customize, re-order, and pay effortlessly.
                     </p>
                   </div>
                 </div>
 
-                {/* 2. Restaurant Owner & Kitchen Console View */}
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <div
-                    className="card border-0 rounded-4 shadow p-3 h-100 text-white"
-                    style={{ backgroundColor: '#1f130d', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    className="p-4 rounded-4 h-100 text-white"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                    }}
                   >
-                    <div className="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary">
-                      <span className="badge bg-warning text-dark">
-                        <i className="bi bi-display me-1" /> Kitchen & Owner Console
-                      </span>
-                      <span className="small text-success">
-                        <i className="bi bi-circle-fill me-1" style={{ fontSize: '0.6rem' }} /> Live Synced
-                      </span>
-                    </div>
+                    <i className="bi bi-stopwatch-fill fs-2 text-warning mb-3 d-block" />
+                    <h5 className="fw-bold mb-2">Live Kitchen ETA</h5>
+                    <p className="small text-light opacity-75 mb-0" style={{ lineHeight: 1.6 }}>
+                      Dynamic prep time calculations based on active ticket volume in the kitchen,
+                      ensuring honest and accurate wait times.
+                    </p>
+                  </div>
+                </div>
 
-                    <div className="my-2">
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <small className="text-muted">Active Kitchen Backlog</small>
-                        <span className="badge bg-secondary">3 active tickets</span>
-                      </div>
-                      <div className="progress" style={{ height: '6px' }}>
-                        <div
-                          className="progress-bar bg-warning"
-                          role="progressbar"
-                          style={{ width: `${(activeStageIdx + 1) * 25}%` }}
-                        />
-                      </div>
-                    </div>
+                <div className="col-sm-6">
+                  <div
+                    className="p-4 rounded-4 h-100 text-white"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                    }}
+                  >
+                    <i className="bi bi-broadcast fs-2 text-warning mb-3 d-block" />
+                    <h5 className="fw-bold mb-2">Real-time Barista Sync</h5>
+                    <p className="small text-light opacity-75 mb-0" style={{ lineHeight: 1.6 }}>
+                      Instant WebSocket updates connect your order directly to the kitchen
+                      display without manual phone calls or paper slips.
+                    </p>
+                  </div>
+                </div>
 
-                    <div className="p-3 rounded-3 my-3" style={{ backgroundColor: '#2a1a12' }}>
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <strong className="text-white small">Order #FP-1048</strong>
-                        <span className="badge" style={{ backgroundColor: currentStage.color }}>
-                          {currentStage.key.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="small text-light opacity-75">
-                        1x Sourdough Margherita, 1x Ethiopian Pour-Over
-                      </div>
-                    </div>
-
-                    <p className="small text-light opacity-75 mb-0 mt-auto">
-                      <i className="bi bi-bell-fill text-warning me-1" />
-                      {currentStage.ownerAction}
+                <div className="col-sm-6">
+                  <div
+                    className="p-4 rounded-4 h-100 text-white"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                    }}
+                  >
+                    <i className="bi bi-cup-straw fs-2 text-warning mb-3 d-block" />
+                    <h5 className="fw-bold mb-2">Zero-Wait Pickups</h5>
+                    <p className="small text-light opacity-75 mb-0" style={{ lineHeight: 1.6 }}>
+                      Get notified the moment your pour-over is extracted or pizza is boxed. Walk
+                      up and collect your order at peak temperature.
                     </p>
                   </div>
                 </div>
@@ -407,7 +406,8 @@ const Home = () => {
             How Front Page Cafe Works
           </h2>
           <p className="text-muted small mx-auto" style={{ maxWidth: '500px' }}>
-            From table scan to your first sip, experience modern cafe ordering designed for speed and comfort.
+            From table scan to your first sip, experience modern cafe ordering designed for speed
+            and comfort.
           </p>
         </div>
 
@@ -451,73 +451,6 @@ const Home = () => {
               </motion.div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Why Guests Love Front Page Cafe (4-Pillar Grid) */}
-      <section className="container my-5">
-        <div
-          className="card border-0 rounded-4 shadow-sm p-4 p-md-5"
-          style={{ backgroundColor: '#fff9f2', border: '1px solid rgba(139, 69, 19, 0.15)' }}
-        >
-          <div className="text-center mb-4">
-            <span className="badge rounded-pill bg-warning-subtle text-dark border px-3 py-1 mb-2 fw-semibold">
-              The Artisanal Standard
-            </span>
-            <h2 className="fw-bold mb-2" style={{ color: '#2c1810' }}>
-              Why Food & Coffee Lovers Choose Us
-            </h2>
-            <p className="text-muted small mx-auto" style={{ maxWidth: '520px' }}>
-              Built for seamless dining experiences without sacrificing culinary craft.
-            </p>
-          </div>
-
-          <div className="row g-4">
-            <div className="col-md-6 col-lg-3">
-              <div className="p-3 bg-white rounded-4 border h-100 shadow-xs">
-                <i className="bi bi-qr-code text-warning fs-2 mb-2 d-block" />
-                <h6 className="fw-bold mb-1" style={{ color: '#2c1810' }}>
-                  Contactless Table QR
-                </h6>
-                <p className="text-muted small mb-0">
-                  Scan the sticker on your cafe table to customize dishes and pay securely without waiting for menus.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <div className="p-3 bg-white rounded-4 border h-100 shadow-xs">
-                <i className="bi bi-stopwatch-fill text-danger fs-2 mb-2 d-block" />
-                <h6 className="fw-bold mb-1" style={{ color: '#2c1810' }}>
-                  Load-Aware Kitchen ETA
-                </h6>
-                <p className="text-muted small mb-0">
-                  Dynamic wait-time calculation based on active kitchen orders, not arbitrary static timer guesses.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <div className="p-3 bg-white rounded-4 border h-100 shadow-xs">
-                <i className="bi bi-cup-hot text-primary fs-2 mb-2 d-block" />
-                <h6 className="fw-bold mb-1" style={{ color: '#2c1810' }}>
-                  Artisanal Ingredients
-                </h6>
-                <p className="text-muted small mb-0">
-                  Ethically sourced beans, 48-hour slow-fermented pizza doughs, and zero artificial syrups.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-3">
-              <div className="p-3 bg-white rounded-4 border h-100 shadow-xs">
-                <i className="bi bi-shield-check text-success fs-2 mb-2 d-block" />
-                <h6 className="fw-bold mb-1" style={{ color: '#2c1810' }}>
-                  Multi-Tenant Security
-                </h6>
-                <p className="text-muted small mb-0">
-                  Strict tenant isolation between cafes, verified staff role management, and instant digital receipts.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
