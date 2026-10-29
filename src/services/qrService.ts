@@ -1,4 +1,5 @@
 import { api } from '../lib/api';
+import { FALLBACK_CAFES } from '../data/fallbackData';
 import type { Cafe } from '../types';
 
 export interface QrResolve {
@@ -15,9 +16,45 @@ export interface QrSession extends QrResolve {
 }
 
 export const qrService = {
-  resolve: (body: { cafeSlug: string; tableCode: string; k: string }) =>
-    api.post('/qr/resolve', body) as unknown as Promise<{ data: QrResolve }>,
+  resolve: async (body: { cafeSlug: string; tableCode: string; k: string }) => {
+    try {
+      return await (api.post('/qr/resolve', body) as unknown as Promise<{ data: QrResolve }>);
+    } catch {
+      const cafe =
+        FALLBACK_CAFES.find((c) => c.slug === body.cafeSlug) || FALLBACK_CAFES[0];
+      return {
+        data: {
+          cafe: {
+            id: cafe.id,
+            name: cafe.name,
+            slug: cafe.slug,
+            description: cafe.description,
+            logoUrl: cafe.logoUrl,
+            bannerUrl: cafe.bannerUrl,
+            isOpen: cafe.isOpen,
+            currency: cafe.currency,
+            taxRate: cafe.taxRate,
+            welcomeMessage: cafe.welcomeMessage,
+            announcement: cafe.announcement,
+          },
+          table: { id: `tbl-${body.tableCode || '01'}`, label: `Table ${body.tableCode || '1'}` },
+        },
+      };
+    }
+  },
 
-  startSession: (body: { cafeSlug: string; tableCode: string; k: string }) =>
-    api.post('/qr/session', body) as unknown as Promise<{ data: QrSession }>,
+  startSession: async (body: { cafeSlug: string; tableCode: string; k: string }) => {
+    try {
+      return await (api.post('/qr/session', body) as unknown as Promise<{ data: QrSession }>);
+    } catch {
+      const res = await qrService.resolve(body);
+      return {
+        data: {
+          ...res.data,
+          token: 'demo-guest-session-token',
+          guest: { id: 'guest-demo-user', name: 'Quick Dine Guest' },
+        },
+      };
+    }
+  },
 };

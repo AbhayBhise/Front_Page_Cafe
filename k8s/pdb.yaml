@@ -1,0 +1,22 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: fpc-api-pdb
+  namespace: front-page-cafe
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: fpc-api
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: fpc-web-pdb
+  namespace: front-page-cafe
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: fpc-web
+

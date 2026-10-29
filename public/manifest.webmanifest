@@ -1,0 +1,22 @@
+{
+  "name": "Front Page Cafe",
+  "short_name": "FrontPageCafe",
+  "description": "Multi-Tenant Cafe Ordering SaaS with Real-Time Kitchen ETA and Table QR Quick-Dine",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#faebd7",
+  "theme_color": "#faebd7",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

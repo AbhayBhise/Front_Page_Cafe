@@ -37,7 +37,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Toaster position="top-right" toastOptions={{ duration: 3500 }} />
         <Suspense fallback={<Spinner label="Loading…" />}>
           <Routes>

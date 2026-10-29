@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Front Page Cafe</title>
+    <script type="text/javascript">
+      // Single Page Application redirect script for GitHub Pages
+      // Encodes the path into query parameters so index.html can restore the route.
+      var pathSegmentsToKeep = 1; // 1 for repo root (e.g. /Front_Page_Cafe/)
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to Front Page Cafe...</p>
+  </body>
+</html>
+

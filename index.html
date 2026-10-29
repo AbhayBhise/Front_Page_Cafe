@@ -1,14 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" oncontextmenu="return false">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#faebd7">
+    <meta name="description" content="Front Page Cafe - Multi-tenant cafe ordering SaaS with kitchen load-aware live queueing, table QR quick dine, and counter operations.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Front Page Cafe — Smart Multi-Tenant Cafe Ordering">
+    <meta property="og:description" content="Experience seamless table QR dining, real-time kitchen ETA tracking, and frictionless online cafe ordering.">
+    <meta property="og:image" content="/front-page-cafe-high-resolution-logo-color-on-transparent-background.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Front Page Cafe — Smart Multi-Tenant Cafe Ordering">
+    <meta name="twitter:description" content="Seamless table QR dining, real-time kitchen ETA tracking, and frictionless online cafe ordering.">
+
+    <link rel="manifest" href="/manifest.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bellota:wght@400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- SPA redirect handler for GitHub Pages -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
     
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
@@ -37,7 +66,7 @@
             border-radius: 10px;
         }
     </style>
-    <title>Front Page Cafe</title>
+    <title>Front Page Cafe — Multi-Tenant Cafe Ordering SaaS</title>
 </head>
 
 <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0" style="background-color: antiquewhite; font-family: Bellota,sans-serif;">

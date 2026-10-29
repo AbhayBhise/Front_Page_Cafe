@@ -1,4 +1,5 @@
 import { api, getData } from '../lib/api';
+import { getFallbackMenu } from '../data/fallbackData';
 import type { Cafe, MenuCategory, MenuItem } from '../types';
 
 export interface PublicMenu {
@@ -10,7 +11,15 @@ export interface PublicMenu {
 }
 
 export const menuService = {
-  getPublicMenu: (cafeId: string) => getData<PublicMenu>(`/menu/${cafeId}`),
+  getPublicMenu: async (cafeId: string) => {
+    try {
+      const data = await getData<PublicMenu>(`/menu/${cafeId}`);
+      if (data && data.categories && data.categories.length > 0) return data;
+      return getFallbackMenu(cafeId);
+    } catch {
+      return getFallbackMenu(cafeId);
+    }
+  },
 
   getManageMenu: (cafeId: string) =>
     getData<{ categories: MenuCategory[]; items: MenuItem[] }>(`/menu/${cafeId}/manage`),

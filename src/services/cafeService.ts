@@ -1,4 +1,5 @@
 import { api, getData } from '../lib/api';
+import { FALLBACK_CAFES, getFallbackCafes } from '../data/fallbackData';
 import type {
   Cafe,
   CafeStaff,
@@ -11,10 +12,26 @@ import type {
 } from '../types';
 
 export const cafeService = {
-  discover: (params: { q?: string; city?: string; page?: number; pageSize?: number } = {}) =>
-    api.get('/cafes', { params }) as unknown as Promise<Paginated<Cafe>>,
+  discover: async (params: { q?: string; city?: string; page?: number; pageSize?: number } = {}) => {
+    try {
+      const res = await (api.get('/cafes', { params }) as unknown as Promise<Paginated<Cafe>>);
+      if (res && res.data && res.data.length > 0) return res;
+      return getFallbackCafes(params);
+    } catch {
+      return getFallbackCafes(params);
+    }
+  },
 
-  get: (idOrSlug: string) => getData<Cafe>(`/cafes/${idOrSlug}`),
+  get: async (idOrSlug: string) => {
+    try {
+      return await getData<Cafe>(`/cafes/${idOrSlug}`);
+    } catch {
+      return (
+        FALLBACK_CAFES.find((c) => c.slug === idOrSlug || c.id === idOrSlug) ||
+        FALLBACK_CAFES[0]
+      );
+    }
+  },
 
   mine: () => getData<Cafe & { counters: Counter[] }>('/cafes/mine'),
 

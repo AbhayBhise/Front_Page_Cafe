@@ -2,27 +2,42 @@ import type { Request } from 'express';
 import { prisma } from '../../lib/prisma';
 import { BadRequest, Conflict, NotFound } from '../../lib/errors';
 import { recordActivity } from '../../lib/activity';
+import { cache } from '../../lib/cache';
 
 export async function getPublicMenu(idOrSlug: string) {
-  const cafe = await prisma.cafe.findFirst({
-    where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }], status: 'approved' },
-    select: { id: true, name: true, slug: true, isOpen: true, taxRate: true, currency: true, logoUrl: true, bannerUrl: true, description: true, welcomeMessage: true, announcement: true },
-  });
-  if (!cafe) throw NotFound('Cafe not found or not approved');
-  const cafeId = cafe.id;
-
-  const categories = await prisma.menuCategory.findMany({
-    where: { cafeId },
-    orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
-    include: {
-      items: {
-        where: { isAvailable: true },
-        orderBy: [{ isFeatured: 'desc' }, { name: 'asc' }],
+  return cache.getOrSet(`menu:${idOrSlug}`, 60, async () => {
+    const cafe = await prisma.cafe.findFirst({
+      where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }], status: 'approved' },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        isOpen: true,
+        taxRate: true,
+        currency: true,
+        logoUrl: true,
+        bannerUrl: true,
+        description: true,
+        welcomeMessage: true,
+        announcement: true,
       },
-    },
-  });
+    });
+    if (!cafe) throw NotFound('Cafe not found or not approved');
+    const cafeId = cafe.id;
 
-  return { cafe, categories: categories.filter((c) => c.items.length > 0) };
+    const categories = await prisma.menuCategory.findMany({
+      where: { cafeId },
+      orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+      include: {
+        items: {
+          where: { isAvailable: true },
+          orderBy: [{ isFeatured: 'desc' }, { name: 'asc' }],
+        },
+      },
+    });
+
+    return { cafe, categories: categories.filter((c) => c.items.length > 0) };
+  });
 }
 
 export async function getManageMenu(cafeId: string) {
@@ -37,6 +52,8 @@ export async function createCategory(cafeId: string, input: { name: string; sort
   const exists = await prisma.menuCategory.findUnique({ where: { cafeId_name: { cafeId, name: input.name } } });
   if (exists) throw Conflict('That category already exists');
   const category = await prisma.menuCategory.create({ data: { cafeId, name: input.name, sortOrder: input.sortOrder ?? 0 } });
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.category_created', cafeId, entityType: 'category', entityId: category.id, req });
   return category;
 }
@@ -45,6 +62,8 @@ export async function updateCategory(cafeId: string, id: string, data: Record<st
   const cat = await prisma.menuCategory.findFirst({ where: { id, cafeId } });
   if (!cat) throw NotFound('Category not found');
   const updated = await prisma.menuCategory.update({ where: { id }, data });
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.category_updated', cafeId, entityType: 'category', entityId: id, req });
   return updated;
 }
@@ -54,6 +73,8 @@ export async function deleteCategory(cafeId: string, id: string, req: Request) {
   if (!cat) throw NotFound('Category not found');
   if (cat._count.items > 0) throw BadRequest('Move or delete items in this category first');
   await prisma.menuCategory.delete({ where: { id } });
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.category_deleted', cafeId, entityType: 'category', entityId: id, req });
 }
 
@@ -65,6 +86,8 @@ async function assertCategoryInCafe(cafeId: string, categoryId: string) {
 export async function createItem(cafeId: string, input: Record<string, unknown>, req: Request) {
   await assertCategoryInCafe(cafeId, input.categoryId as string);
   const item = await prisma.menuItem.create({ data: { ...(input as object), cafeId } as never });
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.item_created', cafeId, entityType: 'item', entityId: item.id, req });
   return item;
 }
@@ -74,6 +97,8 @@ export async function updateItem(cafeId: string, id: string, data: Record<string
   if (!item) throw NotFound('Menu item not found');
   if (data.categoryId) await assertCategoryInCafe(cafeId, data.categoryId as string);
   const updated = await prisma.menuItem.update({ where: { id }, data });
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.item_updated', cafeId, entityType: 'item', entityId: id, req });
   return updated;
 }
@@ -86,5 +111,7 @@ export async function deleteItem(cafeId: string, id: string, req: Request) {
   } else {
     await prisma.menuItem.delete({ where: { id } });
   }
+  cache.invalidatePattern(`menu:${cafeId}`);
+  cache.invalidatePattern('menu:');
   await recordActivity({ action: 'menu.item_deleted', cafeId, entityType: 'item', entityId: id, req });
 }

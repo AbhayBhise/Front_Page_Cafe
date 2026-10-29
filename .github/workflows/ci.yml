@@ -1,0 +1,89 @@
+name: CI / Production Quality Gate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  frontend-check:
+    name: Frontend Build & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Frontend Linter
+        run: npm run lint
+
+      - name: Frontend Typecheck and Production Build
+        run: npm run build
+
+  backend-check:
+    name: Backend Build & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Prisma Schema Validation
+        working-directory: backend
+        run: npx prisma validate
+
+      - name: Backend Typecheck
+        working-directory: backend
+        run: npm run typecheck
+
+      - name: Backend Production Build
+        working-directory: backend
+        run: npm run build
+
+  docker-build-check:
+    name: Dockerfile Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Test Frontend Docker Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: front-page-cafe-web:test
+
+      - name: Test Backend Docker Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: front-page-cafe-api:test
+

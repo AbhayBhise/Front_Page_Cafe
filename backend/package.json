@@ -14,7 +14,8 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "db:push": "prisma db push",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "test": "npm run typecheck && npm run build"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

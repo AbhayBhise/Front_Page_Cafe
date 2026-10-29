@@ -1,7 +1,16 @@
 # Front Page Cafe
 
-Multi-tenant cafe ordering SaaS. React 19 + Vite + Bootstrap 5 frontend, Express + Prisma
-(PostgreSQL) + Socket.IO backend.
+[![CI / Production Quality Gate](https://github.com/AbhayBhise/Front_Page_Cafe/actions/workflows/ci.yml/badge.svg)](https://github.com/AbhayBhise/Front_Page_Cafe/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/AbhayBhise/Front_Page_Cafe/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/AbhayBhise/Front_Page_Cafe/actions/workflows/deploy-pages.yml)
+[![Node.js](https://img.shields.io/badge/Node.js-22_LTS-green.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Production_Ready-2496ED.svg)](https://www.docker.com/)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-Autoscaling_HPA-326CE5.svg)](https://kubernetes.io/)
+
+Multi-tenant cafe ordering SaaS designed for scale. React 19 + Vite + Bootstrap 5 frontend, Express + Prisma (PostgreSQL 17) + Socket.IO backend, with high-performance response caching, horizontal pod autoscaling, and zero-touch CI/CD deployment.
+
+🌐 **Live Demo on GitHub Pages**: [https://abhaybhise.github.io/Front_Page_Cafe/](https://abhaybhise.github.io/Front_Page_Cafe/)  
+📖 **Operations & Deployment Manual**: See [DEPLOYMENT.md](./DEPLOYMENT.md) for Kubernetes manifests, Docker Compose, and cloud blueprints.
 
 ## Roles
 
