@@ -1,6 +1,8 @@
 import type { Cafe, Paginated } from '../types';
 import type { PublicMenu } from '../services/menuService';
 
+const baseUrl = import.meta.env.BASE_URL || '/';
+
 export const FALLBACK_CAFES: Cafe[] = [
   {
     id: 'cafe-front-page',
@@ -17,7 +19,7 @@ export const FALLBACK_CAFES: Cafe[] = [
     email: 'hello@frontpagecafe.com',
     currency: 'INR',
     taxRate: 5,
-    logoUrl: '/front-page-cafe-logo.png',
+    logoUrl: `${baseUrl}front-page-cafe-logo.png`,
     bannerUrl: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200',
     welcomeMessage: 'Welcome to Front Page Cafe! Order at your table or for takeaway.',
     announcement: 'Specialty Ethiopian Yirgacheffe pour-overs available this week.',
@@ -38,7 +40,7 @@ export const FALLBACK_CAFES: Cafe[] = [
     email: 'info@thebrewhouse.in',
     currency: 'INR',
     taxRate: 5,
-    logoUrl: '/front-page-cafe-high-resolution-logo-color-on-transparent-background.png',
+    logoUrl: `${baseUrl}front-page-cafe-high-resolution-logo-color-on-transparent-background.png`,
     bannerUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200',
     welcomeMessage: 'Welcome to The Brew House. Fresh wood-fired pizzas made to order.',
     createdAt: new Date().toISOString(),
@@ -73,7 +75,7 @@ export const FALLBACK_PUBLIC_MENUS: Record<string, PublicMenu> = {
       isOpen: true,
       taxRate: 5,
       currency: 'INR',
-      logoUrl: '/front-page-cafe-logo.png',
+      logoUrl: `${baseUrl}front-page-cafe-logo.png`,
       bannerUrl: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1200',
       description: 'Specialty coffee and kitchen in Koregaon Park.',
       welcomeMessage: 'Welcome to Front Page Cafe! Order at your table or for takeaway.',
@@ -241,7 +243,7 @@ export const FALLBACK_PUBLIC_MENUS: Record<string, PublicMenu> = {
       isOpen: true,
       taxRate: 5,
       currency: 'INR',
-      logoUrl: '/front-page-cafe-high-resolution-logo-color-on-transparent-background.png',
+      logoUrl: `${baseUrl}front-page-cafe-high-resolution-logo-color-on-transparent-background.png`,
       bannerUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1200',
       description: 'Wood-fired pizzas and craft sodas in Bandra West.',
       welcomeMessage: 'Welcome to The Brew House. Fresh wood-fired pizzas made to order.',

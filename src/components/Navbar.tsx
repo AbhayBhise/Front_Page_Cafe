@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useCartStore } from '../store/cartStore';
 import NotificationBell from './NotificationBell';
+import logoImg from '../assets/logo.png';
 
 interface NavLink {
   to: string;
@@ -82,7 +83,7 @@ const Navbar = () => {
       >
         <div className="container-fluid" style={{ backgroundColor: 'antiquewhite' }}>
           <Link className="navbar-brand mx-2" to="/">
-            <img src="/logo.png" alt="Logo" width="90" className="d-inline-block" />
+            <img src={logoImg} alt="Front Page Cafe Logo" width="90" className="d-inline-block" />
           </Link>
           <Link to="/" className="navbar-brand fs-2 mx-1 d-none d-sm-inline">
             Front Page Cafe

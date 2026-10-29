@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import logoImg from '../assets/logo.png';
 
 const About: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const About: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            src="/logo.png" 
+            src={logoImg} 
             alt="Front Page Cafe Logo" 
             className="img-fluid mb-4"
             style={{ maxWidth: '200px' }}
