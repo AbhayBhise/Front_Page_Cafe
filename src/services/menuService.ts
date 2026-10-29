@@ -1,5 +1,5 @@
 import { api, getData } from '../lib/api';
-import { getFallbackMenu } from '../data/fallbackData';
+import { isStaticPreview, isOfflineError, getPublicMenuForCafe } from './mockStorage';
 import type { Cafe, MenuCategory, MenuItem } from '../types';
 
 export interface PublicMenu {
@@ -12,17 +12,35 @@ export interface PublicMenu {
 
 export const menuService = {
   getPublicMenu: async (cafeId: string) => {
+    if (isStaticPreview()) {
+      return getPublicMenuForCafe(cafeId);
+    }
     try {
       const data = await getData<PublicMenu>(`/menu/${cafeId}`);
       if (data && data.categories && data.categories.length > 0) return data;
-      return getFallbackMenu(cafeId);
+      return getPublicMenuForCafe(cafeId);
     } catch {
-      return getFallbackMenu(cafeId);
+      return getPublicMenuForCafe(cafeId);
     }
   },
 
-  getManageMenu: (cafeId: string) =>
-    getData<{ categories: MenuCategory[]; items: MenuItem[] }>(`/menu/${cafeId}/manage`),
+  getManageMenu: async (cafeId: string) => {
+    if (isStaticPreview()) {
+      const pub = getPublicMenuForCafe(cafeId);
+      const items = pub.categories.flatMap((c) => c.items);
+      return { categories: pub.categories, items };
+    }
+    try {
+      return await getData<{ categories: MenuCategory[]; items: MenuItem[] }>(`/menu/${cafeId}/manage`);
+    } catch (error) {
+      if (isOfflineError(error)) {
+        const pub = getPublicMenuForCafe(cafeId);
+        const items = pub.categories.flatMap((c) => c.items);
+        return { categories: pub.categories, items };
+      }
+      throw error;
+    }
+  },
 
   createCategory: (cafeId: string, body: { name: string; sortOrder?: number }) =>
     api.post(`/menu/${cafeId}/manage/categories`, body) as unknown as Promise<{ data: MenuCategory }>,

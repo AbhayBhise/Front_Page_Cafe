@@ -11,11 +11,21 @@ export function useSocketEvent<T = unknown>(event: string, handler: (payload: T)
 
   useEffect(() => {
     const socket = getSocket();
-    if (!socket) return;
     const fn = (payload: T) => saved.current(payload);
-    socket.on(event, fn);
+    if (socket) {
+      socket.on(event, fn);
+    }
+
+    // Also listen for simulated offline events
+    const winHandler = (e: Event) => {
+      const custom = e as CustomEvent<T>;
+      saved.current(custom.detail);
+    };
+    window.addEventListener(`fpc:${event}`, winHandler);
+
     return () => {
-      socket.off(event, fn);
+      socket?.off(event, fn);
+      window.removeEventListener(`fpc:${event}`, winHandler);
     };
   }, [event]);
 }

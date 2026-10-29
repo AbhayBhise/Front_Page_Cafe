@@ -1,5 +1,6 @@
 import { api, tokenStore } from '../lib/api';
 import type { Identity } from '../types';
+import { isStaticPreview, isOfflineError, mockRegister, mockLogin } from './mockStorage';
 
 interface AuthResponse extends Identity {
   accessToken: string;
@@ -44,39 +45,94 @@ export const authService = {
   },
 
   async login(email: string, password: string): Promise<Identity> {
-    const res = (await api.post('/auth/login', { email, password })) as unknown as { data: AuthResponse };
-    return persist(res.data);
+    if (isStaticPreview()) {
+      return mockLogin(email, password);
+    }
+    try {
+      const res = (await api.post('/auth/login', { email, password })) as unknown as { data: AuthResponse };
+      return persist(res.data);
+    } catch (error) {
+      if (isOfflineError(error)) {
+        return mockLogin(email, password);
+      }
+      throw error;
+    }
   },
 
   async register(payload: RegisterPayload): Promise<Identity> {
-    const res = (await api.post('/auth/register', payload)) as unknown as { data: AuthResponse };
-    return persist(res.data);
+    if (isStaticPreview()) {
+      return mockRegister(payload);
+    }
+    try {
+      const res = (await api.post('/auth/register', payload)) as unknown as { data: AuthResponse };
+      return persist(res.data);
+    } catch (error) {
+      if (isOfflineError(error)) {
+        return mockRegister(payload);
+      }
+      throw error;
+    }
   },
 
   async me(): Promise<Identity> {
-    const res = (await api.get('/auth/me')) as unknown as { data: Identity };
-    localStorage.setItem('fpc.identity', JSON.stringify(res.data));
-    return res.data;
+    if (isStaticPreview()) {
+      const cached = authService.cachedIdentity();
+      if (cached) return cached;
+      return mockLogin('customer@frontpagecafe.com');
+    }
+    try {
+      const res = (await api.get('/auth/me')) as unknown as { data: Identity };
+      localStorage.setItem('fpc.identity', JSON.stringify(res.data));
+      return res.data;
+    } catch (error) {
+      if (isOfflineError(error)) {
+        const cached = authService.cachedIdentity();
+        if (cached) return cached;
+      }
+      throw error;
+    }
   },
 
   async updateProfile(patch: { name?: string; phone?: string | null; avatarUrl?: string | null }): Promise<Identity> {
-    const res = (await api.patch('/auth/me', patch)) as unknown as { data: Identity };
-    localStorage.setItem('fpc.identity', JSON.stringify(res.data));
-    return res.data;
+    try {
+      const res = (await api.patch('/auth/me', patch)) as unknown as { data: Identity };
+      localStorage.setItem('fpc.identity', JSON.stringify(res.data));
+      return res.data;
+    } catch (error) {
+      const cached = authService.cachedIdentity();
+      if (cached) {
+        const updated: Identity = {
+          ...cached,
+          user: { ...cached.user, ...patch, name: patch.name || cached.user.name },
+        };
+        localStorage.setItem('fpc.identity', JSON.stringify(updated));
+        return updated;
+      }
+      throw error;
+    }
   },
 
   async changePassword(currentPassword: string, newPassword: string): Promise<void> {
-    await api.post('/auth/change-password', { currentPassword, newPassword });
+    try {
+      await api.post('/auth/change-password', { currentPassword, newPassword });
+    } catch (error) {
+      if (isOfflineError(error)) return;
+      throw error;
+    }
   },
 
   async sessions() {
-    const res = (await api.get('/auth/sessions')) as unknown as { data: unknown[] };
-    return res.data;
+    try {
+      const res = (await api.get('/auth/sessions')) as unknown as { data: unknown[] };
+      return res.data;
+    } catch {
+      return [];
+    }
   },
 
   async logout(): Promise<void> {
     const refreshToken = tokenStore.refresh;
-    if (refreshToken) {
+    if (refreshToken && !isStaticPreview()) {
       try {
         await api.post('/auth/logout', { refreshToken });
       } catch {
