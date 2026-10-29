@@ -46,7 +46,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.12.0",
-    "embedded-postgres": "^17.9.0-beta.17",
+    "embedded-postgres": "^18.0.0-beta.15",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
