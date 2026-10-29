@@ -72,7 +72,7 @@ jobs:
         uses: actions/setup-buildx-action@v3
 
       - name: Test Frontend Docker Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
@@ -80,7 +80,7 @@ jobs:
           tags: front-page-cafe-web:test
 
       - name: Test Backend Docker Build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./backend
           file: ./backend/Dockerfile
