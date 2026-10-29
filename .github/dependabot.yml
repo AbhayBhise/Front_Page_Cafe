@@ -3,21 +3,17 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
-    open-pull-requests-limit: 10
-    reviewers:
-      - 'AbhayBhise'
+      interval: 'monthly'
+    open-pull-requests-limit: 0
 
   - package-ecosystem: 'npm'
     directory: '/backend'
     schedule:
-      interval: 'weekly'
-    open-pull-requests-limit: 10
-    reviewers:
-      - 'AbhayBhise'
+      interval: 'monthly'
+    open-pull-requests-limit: 0
 
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'weekly'
-
+      interval: 'monthly'
+    open-pull-requests-limit: 0

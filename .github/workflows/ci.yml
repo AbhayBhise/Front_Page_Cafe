@@ -34,6 +34,11 @@ jobs:
   backend-check:
     name: Backend Build & Typecheck
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/frontpagecafe'
+      JWT_ACCESS_SECRET: 'ci_test_access_secret_key_1234567890'
+      JWT_REFRESH_SECRET: 'ci_test_refresh_secret_key_1234567890'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
