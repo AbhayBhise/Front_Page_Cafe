@@ -12,14 +12,18 @@ export function useCafeQueue(cafeId: string | null, scope: 'active' | 'today' = 
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(() => {
-    if (!cafeId) return;
+    if (!cafeId) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     cafeService
       .orders(cafeId, { scope, pageSize: 100 })
       .then((res) => {
-        setOrders(res.data);
-        setKitchenLoad(res.kitchenLoad);
+        const orderList = Array.isArray(res?.data) ? res.data : [];
+        setOrders(orderList);
+        setKitchenLoad(res?.kitchenLoad ?? null);
       })
       .catch((e) => setError(e instanceof Error ? e.message : 'Failed to load orders'))
       .finally(() => setLoading(false));
@@ -29,25 +33,27 @@ export function useCafeQueue(cafeId: string | null, scope: 'active' | 'today' = 
 
   const upsert = useCallback(
     (order: Order) => {
+      if (!order || !order.id) return;
       setOrders((list) => {
+        const safeList = Array.isArray(list) ? list : [];
         const active = ['pending', 'accepted', 'preparing', 'ready'];
-        const exists = list.some((o) => o.id === order.id);
-        let next = exists ? list.map((o) => (o.id === order.id ? { ...o, ...order } : o)) : [...list, order];
+        const exists = safeList.some((o) => o.id === order.id);
+        let next = exists ? safeList.map((o) => (o.id === order.id ? { ...o, ...order } : o)) : [...safeList, order];
         if (scope === 'active') next = next.filter((o) => active.includes(o.status));
-        return next.sort((a, b) => +new Date(a.placedAt) - +new Date(b.placedAt));
+        return next.sort((a, b) => +new Date(a.placedAt || 0) - +new Date(b.placedAt || 0));
       });
     },
     [scope],
   );
 
   useSocketEvent<Order>('order:new', (o) => {
-    if (o.cafeId === cafeId) {
+    if (o && o.cafeId === cafeId) {
       upsert(o);
-      toast(`New order #${o.orderNumber}`, { icon: '🔔' });
+      toast(`New order #${o.orderNumber || ''}`, { icon: '🔔' });
     }
   });
   useSocketEvent<Order>('order:updated', (o) => {
-    if (o.cafeId === cafeId) upsert(o);
+    if (o && o.cafeId === cafeId) upsert(o);
   });
 
   const transition = useCallback(

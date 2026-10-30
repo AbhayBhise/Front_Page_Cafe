@@ -19,14 +19,24 @@ const OwnerDashboard = () => {
 
   const loadSecondary = useCallback(() => {
     if (!cafeId) return;
-    cafeService.analyticsOverview(cafeId).then(setOverview).catch(() => undefined);
-    cafeService.presence(cafeId).then((p) => setPresence(p.staff)).catch(() => undefined);
+    cafeService
+      .analyticsOverview(cafeId)
+      .then((o) => {
+        if (o) setOverview(o);
+      })
+      .catch(() => undefined);
+    cafeService
+      .presence(cafeId)
+      .then((p) => {
+        if (p?.staff && Array.isArray(p.staff)) setPresence(p.staff);
+      })
+      .catch(() => undefined);
   }, [cafeId]);
 
   useEffect(loadSecondary, [loadSecondary]);
 
   useSocketEvent<{ cafeId: string; staff: PresenceEntry[] }>('presence:update', (p) => {
-    if (p.cafeId === cafeId) setPresence(p.staff);
+    if (p && p.cafeId === cafeId && Array.isArray(p.staff)) setPresence(p.staff);
   });
   useSocketEvent('order:new', loadSecondary);
   useSocketEvent('order:updated', loadSecondary);
@@ -53,14 +63,16 @@ const OwnerDashboard = () => {
       </div>
     );
 
-  const load = overview?.kitchenLoad;
+  const safePresence = Array.isArray(presence) ? presence : [];
+  const safeOrders = Array.isArray(queue.orders) ? queue.orders : [];
+  const load = overview?.kitchenLoad ?? queue.kitchenLoad;
 
   return (
     <div className="container py-4" style={{ minHeight: '70vh' }}>
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <h2 className="fw-bold m-0">
           <i className="bi bi-shop me-2 text-primary" />
-          {cafe.name}
+          {cafe.name || 'My Cafe'}
         </h2>
         <div className="d-flex align-items-center gap-3">
           <div className="form-check form-switch m-0">
@@ -69,7 +81,7 @@ const OwnerDashboard = () => {
               type="checkbox"
               role="switch"
               id="openSwitch"
-              checked={cafe.isOpen}
+              checked={Boolean(cafe.isOpen)}
               disabled={cafe.status !== 'approved'}
               onChange={toggleOpen}
             />
@@ -90,7 +102,7 @@ const OwnerDashboard = () => {
           <StatCard label="Today's revenue" value={money(overview?.todayRevenue)} icon="cash-stack" tone="bg-primary text-white" hint={`${overview?.todayOrders ?? 0} orders`} />
         </div>
         <div className="col-6 col-lg-3">
-          <StatCard label="Active orders" value={overview?.activeOrders ?? queue.orders.length} icon="hourglass-split" />
+          <StatCard label="Active orders" value={overview?.activeOrders ?? safeOrders.length} icon="hourglass-split" />
         </div>
         <div className="col-6 col-lg-3">
           <StatCard
@@ -101,7 +113,7 @@ const OwnerDashboard = () => {
           />
         </div>
         <div className="col-6 col-lg-3">
-          <StatCard label="Staff online" value={presence.filter((p) => p.online).length} icon="broadcast" hint="live now" />
+          <StatCard label="Staff online" value={safePresence.filter((p) => p && p.online).length} icon="broadcast" hint="live now" />
         </div>
       </div>
 
@@ -116,14 +128,14 @@ const OwnerDashboard = () => {
           <PageState
             loading={queue.loading}
             error={queue.error}
-            empty={queue.orders.length === 0}
+            empty={safeOrders.length === 0}
             emptyIcon="cup-hot"
             emptyTitle="No live orders"
             emptyHint="New orders appear here instantly."
             onRetry={queue.reload}
           >
             <div className="row row-cols-1 row-cols-md-2 g-3">
-              {queue.orders.map((o) => (
+              {safeOrders.map((o) => (
                 <div className="col" key={o.id}>
                   <OrderQueueCard order={o} onTransition={(s, note) => queue.transition(o.id, s, note)} />
                 </div>
@@ -136,18 +148,18 @@ const OwnerDashboard = () => {
           <h5 className="fw-bold mb-2">Counter presence</h5>
           <div className="card border-0 shadow-sm rounded-4">
             <div className="card-body">
-              {presence.length === 0 ? (
+              {safePresence.length === 0 ? (
                 <p className="text-muted small mb-0">No staff have signed in yet.</p>
               ) : (
                 <ul className="list-unstyled mb-0">
-                  {presence.map((p) => (
+                  {safePresence.map((p) => (
                     <li key={p.userId} className="d-flex align-items-center justify-content-between py-2 border-bottom">
                       <span>
                         <i
                           className={`bi bi-circle-fill me-2 ${p.online ? 'text-success' : 'text-secondary'}`}
                           style={{ fontSize: 9 }}
                         />
-                        {p.name}
+                        {p.name || 'Staff'}
                         <span className="text-muted small ms-1">
                           · {p.role === 'owner' ? 'Owner' : p.counterName || 'Counter'}
                         </span>

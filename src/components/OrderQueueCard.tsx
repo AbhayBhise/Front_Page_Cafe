@@ -21,7 +21,8 @@ const OrderQueueCard = ({
   onTransition: (status: OrderStatus, note?: string) => Promise<void> | void;
 }) => {
   const [busy, setBusy] = useState<string | null>(null);
-  const actions = NEXT_ACTIONS[order.status] ?? [];
+  const actions = (order?.status && NEXT_ACTIONS[order.status]) ?? [];
+  const items = Array.isArray(order?.items) ? order.items : [];
 
   const run = async (to: OrderStatus) => {
     let note: string | undefined;
@@ -43,31 +44,31 @@ const OrderQueueCard = ({
         <div className="d-flex justify-content-between align-items-start mb-2">
           <div>
             <h6 className="fw-bold mb-0">
-              #{order.orderNumber}
+              #{order?.orderNumber ?? '—'}
               <span className="badge bg-light text-dark ms-2">
-                {order.fulfillmentType === 'dine_in' ? `Table ${order.tableNumber ?? '—'}` : 'Takeaway'}
+                {order?.fulfillmentType === 'dine_in' ? `Table ${order?.tableNumber ?? '—'}` : 'Takeaway'}
               </span>
             </h6>
             <span className="text-muted small">
-              {order.customer?.name ?? order.customerName ?? 'Guest'} · {timeAgo(order.placedAt)}
+              {order?.customer?.name ?? order?.customerName ?? 'Guest'} · {timeAgo(order?.placedAt)}
             </span>
           </div>
-          <OrderStatusBadge status={order.status} />
+          {order?.status && <OrderStatusBadge status={order.status} />}
         </div>
 
         <ul className="list-unstyled small mb-2">
-          {order.items.map((it) => (
-            <li key={it.id}>
-              <span className="fw-semibold">{it.quantity}×</span> {it.nameSnapshot}
+          {items.map((it, idx) => (
+            <li key={it?.id || idx}>
+              <span className="fw-semibold">{it?.quantity ?? 1}×</span> {it?.nameSnapshot || 'Item'}
             </li>
           ))}
         </ul>
-        {order.notes && <p className="small fst-italic text-muted mb-2">“{order.notes}”</p>}
+        {order?.notes && <p className="small fst-italic text-muted mb-2">“{order.notes}”</p>}
 
         <div className="d-flex justify-content-between align-items-center">
-          <span className="fw-bold">{money(order.total, order.cafe?.currency)}</span>
-          <span className={`badge ${order.paymentStatus === 'paid' ? 'bg-success' : 'bg-warning text-dark'}`}>
-            {order.paymentMethod} · {order.paymentStatus}
+          <span className="fw-bold">{money(order?.total ?? 0, order?.cafe?.currency ?? 'INR')}</span>
+          <span className={`badge ${order?.paymentStatus === 'paid' ? 'bg-success' : 'bg-warning text-dark'}`}>
+            {order?.paymentMethod || 'Pay at Counter'} · {order?.paymentStatus || 'pending'}
           </span>
         </div>
 

@@ -25,9 +25,9 @@ const StaffManagement = () => {
     setError(null);
     Promise.all([cafeService.listCounters(cafeId), cafeService.listStaff(cafeId), cafeService.presence(cafeId)])
       .then(([c, s, p]) => {
-        setCounters(c);
-        setStaff(s);
-        setPresence(p.staff);
+        setCounters(Array.isArray(c) ? c : []);
+        setStaff(Array.isArray(s) ? s : []);
+        setPresence(Array.isArray(p?.staff) ? p.staff : []);
       })
       .catch((e) => setError(e instanceof Error ? e.message : 'Failed to load'))
       .finally(() => setLoading(false));
@@ -35,10 +35,10 @@ const StaffManagement = () => {
 
   useEffect(load, [load]);
   useSocketEvent<{ cafeId: string; staff: PresenceEntry[] }>('presence:update', (p) => {
-    if (p.cafeId === cafeId) setPresence(p.staff);
+    if (p && p.cafeId === cafeId && Array.isArray(p.staff)) setPresence(p.staff);
   });
 
-  const online = (userId: string) => presence.find((p) => p.userId === userId && p.online);
+  const online = (userId: string) => (Array.isArray(presence) ? presence : []).find((p) => p && p.userId === userId && p.online);
 
   const addCounter = async (e: React.FormEvent) => {
     e.preventDefault();

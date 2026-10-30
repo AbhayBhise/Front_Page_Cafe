@@ -288,4 +288,3 @@ const QrScanner = () => {
 };
 
 export default QrScanner;
-

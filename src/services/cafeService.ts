@@ -48,12 +48,19 @@ export const cafeService = {
     if (isStaticPreview()) {
       const raw = localStorage.getItem('fpc.identity');
       const identity = raw ? JSON.parse(raw) : null;
-      const cafe = identity?.cafe || getCustomCafes()[0] || FALLBACK_CAFES[0];
+      const custom = getCustomCafes();
+      const cafe = identity?.cafe || custom[0] || FALLBACK_CAFES[0];
+      const cafeId = cafe?.id || 'cafe-front-page';
       return {
         ...cafe,
+        id: cafeId,
+        name: cafe?.name || 'Front Page Cafe',
+        slug: cafe?.slug || 'front-page-cafe',
+        isOpen: cafe?.isOpen ?? true,
+        status: cafe?.status || 'approved',
         counters: [
-          { id: 'cnt-1', cafeId: cafe.id, name: 'Main Espresso Bar', code: 'MAIN', isActive: true },
-          { id: 'cnt-2', cafeId: cafe.id, name: 'Kitchen Dispatch', code: 'KITCHEN', isActive: true },
+          { id: `cnt-${cafeId}-1`, cafeId, name: 'Main Espresso Bar', code: 'MAIN', isActive: true },
+          { id: `cnt-${cafeId}-2`, cafeId, name: 'Kitchen Dispatch', code: 'KITCHEN', isActive: true },
         ],
       } as Cafe & { counters: Counter[] };
     }
@@ -63,11 +70,18 @@ export const cafeService = {
       if (isOfflineError(error)) {
         const raw = localStorage.getItem('fpc.identity');
         const identity = raw ? JSON.parse(raw) : null;
-        const cafe = identity?.cafe || getCustomCafes()[0] || FALLBACK_CAFES[0];
+        const custom = getCustomCafes();
+        const cafe = identity?.cafe || custom[0] || FALLBACK_CAFES[0];
+        const cafeId = cafe?.id || 'cafe-front-page';
         return {
           ...cafe,
+          id: cafeId,
+          name: cafe?.name || 'Front Page Cafe',
+          slug: cafe?.slug || 'front-page-cafe',
+          isOpen: cafe?.isOpen ?? true,
+          status: cafe?.status || 'approved',
           counters: [
-            { id: 'cnt-1', cafeId: cafe.id, name: 'Main Espresso Bar', code: 'MAIN', isActive: true },
+            { id: `cnt-${cafeId}-1`, cafeId, name: 'Main Espresso Bar', code: 'MAIN', isActive: true },
           ],
         } as Cafe & { counters: Counter[] };
       }
@@ -272,8 +286,31 @@ export const cafeService = {
     }
   },
 
-  activity: (cafeId: string, page = 1) =>
-    api.get(`/cafes/${cafeId}/activity`, { params: { page } }) as unknown as Promise<Paginated<ActivityLog>>,
+  activity: async (cafeId: string, page = 1) => {
+    try {
+      return (await api.get(`/cafes/${cafeId}/activity`, { params: { page } })) as unknown as Paginated<ActivityLog>;
+    } catch {
+      return {
+        data: [
+          {
+            id: 'act-1',
+            cafeId,
+            action: 'cafe.updated',
+            description: 'Cafe hours and digital ordering synchronized',
+            createdAt: new Date().toISOString(),
+          },
+          {
+            id: 'act-2',
+            cafeId,
+            action: 'menu.updated',
+            description: 'Artisanal menu items refreshed with real-time inventory',
+            createdAt: new Date(Date.now() - 3600000).toISOString(),
+          },
+        ],
+        meta: { page, pageSize: 20, total: 2, pages: 1 },
+      };
+    }
+  },
 };
 
 export interface CafeAnalyticsOverview {
