@@ -16,6 +16,9 @@ const QrScanner = () => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const activeRequestId = useRef(0);
+  const isMountedRef = useRef(true);
+  const scanIntervalRef = useRef<number | null>(null);
 
   const [cafes, setCafes] = useState<Cafe[]>([]);
   const [selectedCafe, setSelectedCafe] = useState('front-page-cafe');
@@ -35,44 +38,169 @@ const QrScanner = () => {
       .catch(() => undefined);
   }, [selectedCafe]);
 
+  const stopAllTracks = (mediaStream: MediaStream | null) => {
+    if (!mediaStream) return;
+    try {
+      mediaStream.getTracks().forEach((track) => {
+        try {
+          track.enabled = false;
+          track.stop();
+        } catch {
+          /* ignore track stop error */
+        }
+      });
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const stopScanLoop = () => {
+    if (scanIntervalRef.current !== null) {
+      window.clearInterval(scanIntervalRef.current);
+      scanIntervalRef.current = null;
+    }
+  };
+
+  const handleScannedValue = (scanned: string) => {
+    try {
+      const match = scanned.match(/\/t\/([^/]+)\/([^/?#]+)/i);
+      if (match) {
+        const slug = match[1];
+        const code = match[2];
+        stopCamera();
+        toast.success(`Found Table ${code}! Loading menu...`);
+        navigate(`/t/${slug}/${code}`);
+      }
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const startScanLoop = () => {
+    stopScanLoop();
+    if (typeof window !== 'undefined' && 'BarcodeDetector' in window) {
+      try {
+        // @ts-expect-error BarcodeDetector is a modern browser feature
+        const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
+        scanIntervalRef.current = window.setInterval(async () => {
+          if (!videoRef.current || videoRef.current.readyState < 2) return;
+          try {
+            const barcodes = await detector.detect(videoRef.current);
+            if (barcodes && barcodes.length > 0 && barcodes[0].rawValue) {
+              handleScannedValue(barcodes[0].rawValue);
+            }
+          } catch {
+            /* ignore individual frame scan glitches */
+          }
+        }, 500);
+      } catch {
+        /* BarcodeDetector initialization fallback */
+      }
+    }
+  };
+
+  // Stop Camera & immediately release hardware lock
+  const stopCamera = () => {
+    activeRequestId.current += 1;
+    stopScanLoop();
+
+    if (streamRef.current) {
+      stopAllTracks(streamRef.current);
+      streamRef.current = null;
+    }
+
+    if (videoRef.current) {
+      if (videoRef.current.srcObject instanceof MediaStream) {
+        stopAllTracks(videoRef.current.srcObject);
+      }
+      try {
+        videoRef.current.pause();
+      } catch {
+        /* ignore */
+      }
+      videoRef.current.srcObject = null;
+    }
+
+    setCameraActive(false);
+  };
+
   // Start Camera
   const startCamera = async () => {
+    stopCamera();
     setCameraError(null);
+
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setCameraError('Camera is not supported on this browser or device.');
       return;
     }
 
+    const requestId = ++activeRequestId.current;
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' },
+        audio: false,
       });
+
+      // If user paused or navigated away while permission was being accepted
+      if (!isMountedRef.current || requestId !== activeRequestId.current) {
+        stopAllTracks(stream);
+        return;
+      }
+
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        videoRef.current.setAttribute('playsinline', 'true');
+        videoRef.current.muted = true;
+        try {
+          await videoRef.current.play();
+        } catch {
+          /* ignore play interruption */
+        }
       }
-      setCameraActive(true);
-    } catch {
-      setCameraError('Camera permission was denied or camera is in use. You can enter or select your table below.');
-      setCameraActive(false);
-    }
-  };
 
-  // Stop Camera
-  const stopCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
+      if (!isMountedRef.current || requestId !== activeRequestId.current) {
+        stopCamera();
+        return;
+      }
+
+      setCameraActive(true);
+      startScanLoop();
+    } catch {
+      if (isMountedRef.current && requestId === activeRequestId.current) {
+        setCameraError('Camera permission was denied or camera is in use. You can enter or select your table below.');
+        setCameraActive(false);
+      }
     }
-    setCameraActive(false);
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     startCamera();
-    return () => {
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopCamera();
+      }
+    };
+
+    const handlePageHide = () => {
       stopCamera();
     };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+    window.addEventListener('beforeunload', handlePageHide);
+
+    return () => {
+      isMountedRef.current = false;
+      stopCamera();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      window.removeEventListener('beforeunload', handlePageHide);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleManualSubmit = (e: React.FormEvent) => {
@@ -142,14 +270,14 @@ const QrScanner = () => {
                 <div className="p-4 text-center">
                   <i className="bi bi-camera-video-off fs-1 text-warning mb-2 d-block" />
                   <p className="small text-light opacity-75 mb-3">
-                    {cameraError || 'Camera inactive'}
+                    {cameraError || 'Camera paused · Hardware released'}
                   </p>
                   <button
                     type="button"
                     className="btn btn-warning btn-sm rounded-pill px-3 fw-bold"
                     onClick={startCamera}
                   >
-                    <i className="bi bi-camera me-1" /> Try Enabling Camera
+                    <i className="bi bi-camera me-1" /> {cameraError ? 'Try Enabling Camera' : 'Resume Camera'}
                   </button>
                 </div>
               )}
